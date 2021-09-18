@@ -1,0 +1,17 @@
+{
+  "name": "frontend-coding-test",
+  "version": "1.0.2",
+  "description": "Boilerplate for the Deliverect frontend coding test",
+  "repository": "git@github.com:Deliverect/frontend-coding-test.git",
+  "author": "Robbe Vanhaesebroeck <robbe.vanhaesebroeck@deliverect.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "setup": "./setup.sh",
+    "runServer": "yarn workspace backend start"
+  }
+}

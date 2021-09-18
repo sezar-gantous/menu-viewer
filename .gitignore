@@ -1,0 +1,6 @@
+.dccache
+.vscode
+node_modules
+.env
+/build
+_README.md
