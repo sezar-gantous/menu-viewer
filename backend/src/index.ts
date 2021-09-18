@@ -1,11 +1,13 @@
 import express from "express";
 import path from "path";
 import logger from "morgan";
+import cors from "cors";
 import menuRouter from "./routes/menus";
 import orderRouter from "./routes/orders";
 
 const app = express();
 
+app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
