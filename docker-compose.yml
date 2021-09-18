@@ -1,0 +1,49 @@
+version: "3.7"
+
+services:
+  menu-viewer-node:
+    image: docker.io/copperdock/menu-viewer-backend:v1.0.0
+    container_name: menu-viewer-node
+    env_file:
+      - ./backend/.env.example
+    working_dir: /app
+    stdin_open: true
+    command: >
+      sh -c "npx prisma migrate dev && 
+        npx prisma db seed --preview-feature && 
+        yarn start"
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./backend/package.json:/app/package.json
+      - ./backend/src:/app/src
+      - ./backend/prisma:/app/prisma
+      - ./backend/.eslintrc:/app/.eslintrc
+      - ./backend/.prettierrc:/app/.prettierrc
+      - ./backend/.env.example:/app/.env.example
+      - ./backend/tsconfig.json:/app/tsconfig.json
+      - ./backend/.prettierignore:/app/.prettierignore
+    networks:
+      - menu-viewer-network
+  menu-viewer-react:
+    image: docker.io/copperdock/menu-viewer-frontend:v1.0.0
+    container_name: menu-viewer-react
+    env_file:
+      - ./frontend/.env
+    environment:
+      - SKIP_PREFLIGHT_CHECK=true
+      - PORT=3100
+    working_dir: /app
+    stdin_open: true
+    command: >
+      sh -c "npx yarn start"
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./frontend/package.json:/app/package.json
+    networks:
+      - menu-viewer-network
+
+networks:
+  menu-viewer-network:
+    driver: bridge
