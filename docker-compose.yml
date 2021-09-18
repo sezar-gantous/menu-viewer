@@ -7,7 +7,6 @@ services:
     env_file:
       - ./backend/.env.example
     working_dir: /app
-    stdin_open: true
     command: >
       sh -c "npx prisma migrate dev && 
         npx prisma db seed --preview-feature && 
@@ -41,6 +40,13 @@ services:
       - "3100:3100"
     volumes:
       - ./frontend/package.json:/app/package.json
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+      - ./frontend/.eslintrc:/app/.eslintrc
+      - ./frontend/.prettierrc:/app/.prettierrc
+      - ./frontend/.env:/app/.env
+      - ./frontend/jsconfig.json:/app/jsconfig.json
+      - ./frontend/.prettierignore:/app/.prettierignore
     networks:
       - menu-viewer-network
 
