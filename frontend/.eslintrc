@@ -1,0 +1,80 @@
+{
+  "extends": ["airbnb", "airbnb/hooks", "prettier"],
+  "plugins": ["prettier", "react-hooks"],
+  "settings": {
+    "import/resolver" : {    
+      "alias": {
+          "map": [
+            [
+              "common",
+              "./src/common/"
+            ],
+            [
+              "features",
+              "./src/features/"
+            ],
+            [
+              "app",
+              "./src/app/"
+            ],
+            [
+              "utils",
+              "./src/utils/"
+            ],
+            [
+              "assets",
+              "./src/assets/"
+            ],
+            [
+              "providers",
+              "./src/providers/"
+            ],
+            [
+              "services",
+              "./src/services/"
+            ]
+          ],
+          "extensions": [
+            ".js"
+          ]
+        }
+    }
+  },
+  "env": {
+    "jest": true
+  },
+  "globals": {
+    "document": true,
+    "window": true,
+    "navigator": true,
+    "Blob": true,
+    "FileReader": true,
+    "fetch": true,
+    "atob": true,
+    "Math": true,
+    "localStorage": true
+  },
+  "parser": "babel-eslint",
+  "rules": {
+    "prettier/prettier": "error",
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "never"
+      }
+    ],
+    "react/jsx-filename-extension": ["error", { "extensions": [".js"] }],
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        "components": ["Link", "NavLink"],
+        "specialLink": ["hrefLeft", "hrefRight", "to"],
+        "aspects": ["noHref", "invalidHref", "preferButton"]
+      }
+    ]
+  }
+}
