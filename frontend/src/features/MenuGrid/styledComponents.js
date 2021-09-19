@@ -4,6 +4,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Skeleton from '@material-ui/lab/Skeleton';
+import Link from '@material-ui/core/Link';
 
 export const MenuGridContainer = styled.div`
   display: grid;
@@ -42,3 +43,4 @@ export const ReleaseDate = styled(Typography)`
 export { CardContent };
 export { Typography };
 export { Skeleton };
+export { Link };

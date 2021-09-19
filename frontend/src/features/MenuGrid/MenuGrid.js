@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link as RouterLink } from 'react-router-dom';
 import { MenuSkeletonLoading } from './component/MenuSkeletonLoading';
 import * as MenuGridStyles from './styledComponents';
 
@@ -19,25 +20,35 @@ const MenuGrid = ({ menus, posterBaseUrl, isLoading }) => (
           key={`menuItem-${item.id}`}
           data-testid={`menuItem-${item.id}`}
         >
-          <MenuGridStyles.PosterContainer
-            image={`${posterBaseUrl}${item.poster_path}`}
-            alt={item.name}
-            title={item.name}
-          />
+          <MenuGridStyles.Link
+            component={RouterLink}
+            to={`/menus/${item.id}`}
+            underline="none"
+          >
+            <MenuGridStyles.PosterContainer
+              image={`${posterBaseUrl}${item.poster_path}`}
+              alt={item.name}
+              title={item.name}
+            />
 
-          <MenuGridStyles.CardContent>
-            <MenuGridStyles.Typography gutterBottom variant="h5" component="h2">
-              {item.name}
-            </MenuGridStyles.Typography>
+            <MenuGridStyles.CardContent>
+              <MenuGridStyles.Typography
+                gutterBottom
+                variant="h5"
+                component="h2"
+              >
+                {item.name}
+              </MenuGridStyles.Typography>
 
-            <MenuGridStyles.ReleaseDate
-              variant="body2"
-              color="textSecondary"
-              component="span"
-            >
-              {item.description}
-            </MenuGridStyles.ReleaseDate>
-          </MenuGridStyles.CardContent>
+              <MenuGridStyles.ReleaseDate
+                variant="body2"
+                color="textSecondary"
+                component="span"
+              >
+                {item.description}
+              </MenuGridStyles.ReleaseDate>
+            </MenuGridStyles.CardContent>
+          </MenuGridStyles.Link>
         </MenuGridStyles.CardContainer>
       ))
     )}

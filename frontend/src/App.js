@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import { PageHeader } from 'app/PageHeader';
 import { PageFooter } from 'app/PageFooter';
 import { Home } from 'app/pages/Home';
+import { MenuDetails } from 'app/pages/MenuDetails';
 import './App.css';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
@@ -21,6 +22,7 @@ function App() {
       <main>
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route path="/menus/:menuid" component={MenuDetails} />
         </Switch>
       </main>
       <PageFooter />
