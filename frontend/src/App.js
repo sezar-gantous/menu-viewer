@@ -1,4 +1,5 @@
 import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 import { PageHeader } from 'app/PageHeader';
 import { PageFooter } from 'app/PageFooter';
 import { Home } from 'app/pages/Home';
@@ -18,7 +19,9 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <PageHeader />
       <main>
-        <Home />
+        <Switch>
+          <Route exact path="/" component={Home} />
+        </Switch>
       </main>
       <PageFooter />
     </QueryClientProvider>
