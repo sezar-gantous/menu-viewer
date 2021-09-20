@@ -23,6 +23,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/menus/:menuid" component={MenuDetails} />
+          <Route path="/menus/" component={Home} />
         </Switch>
       </main>
       <PageFooter />

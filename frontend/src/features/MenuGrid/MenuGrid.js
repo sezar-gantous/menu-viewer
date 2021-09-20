@@ -4,7 +4,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { MenuSkeletonLoading } from './component/MenuSkeletonLoading';
 import * as MenuGridStyles from './styledComponents';
 
-const MenuGrid = ({ menus, posterBaseUrl, isLoading }) => (
+const MenuGrid = ({ menus, isLoading }) => (
   <MenuGridStyles.MenuGridContainer data-testid="MenuGridContainer">
     {isLoading ? (
       <>
@@ -26,7 +26,7 @@ const MenuGrid = ({ menus, posterBaseUrl, isLoading }) => (
             underline="none"
           >
             <MenuGridStyles.PosterContainer
-              image={`${posterBaseUrl}${item.poster_path}`}
+              image="/food.jpg"
               alt={item.name}
               title={item.name}
             />
@@ -40,13 +40,13 @@ const MenuGrid = ({ menus, posterBaseUrl, isLoading }) => (
                 {item.name}
               </MenuGridStyles.Typography>
 
-              <MenuGridStyles.ReleaseDate
+              <MenuGridStyles.Menudescription
                 variant="body2"
                 color="textSecondary"
                 component="span"
               >
                 {item.description}
-              </MenuGridStyles.ReleaseDate>
+              </MenuGridStyles.Menudescription>
             </MenuGridStyles.CardContent>
           </MenuGridStyles.Link>
         </MenuGridStyles.CardContainer>
@@ -57,7 +57,6 @@ const MenuGrid = ({ menus, posterBaseUrl, isLoading }) => (
 
 export const defaultProps = {
   menus: [],
-  posterBaseUrl: 'https://www.theMenudb.org/t/p/w500',
   isLoading: false,
 };
 
@@ -73,7 +72,6 @@ MenuGrid.propTypes = {
       release_date: PropTypes.string,
     })
   ),
-  posterBaseUrl: PropTypes.string,
   isLoading: PropTypes.bool,
 };
 

@@ -13,7 +13,6 @@ async function fetchMenus() {
 }
 
 const Home = () => {
-  const posterBaseUrl = 'https://www.theMenudb.org/t/p/w500';
   const { data, error, isError, isLoading } = useQuery('menus', fetchMenus);
 
   if (!isLoading && data.length === 0) {
@@ -24,12 +23,6 @@ const Home = () => {
   if (isError) {
     return <HomeStyles.NoMenus>Error! {error.message}</HomeStyles.NoMenus>;
   }
-  return (
-    <MenuGrid
-      menus={data}
-      posterBaseUrl={posterBaseUrl}
-      isLoading={isLoading}
-    />
-  );
+  return <MenuGrid menus={data} isLoading={isLoading} />;
 };
 export default Home;

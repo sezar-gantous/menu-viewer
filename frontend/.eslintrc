@@ -2,42 +2,17 @@
   "extends": ["airbnb", "airbnb/hooks", "prettier"],
   "plugins": ["prettier", "react-hooks"],
   "settings": {
-    "import/resolver" : {    
+    "import/resolver": {
       "alias": {
-          "map": [
-            [
-              "common",
-              "./src/common/"
-            ],
-            [
-              "features",
-              "./src/features/"
-            ],
-            [
-              "app",
-              "./src/app/"
-            ],
-            [
-              "utils",
-              "./src/utils/"
-            ],
-            [
-              "assets",
-              "./src/assets/"
-            ],
-            [
-              "providers",
-              "./src/providers/"
-            ],
-            [
-              "services",
-              "./src/services/"
-            ]
-          ],
-          "extensions": [
-            ".js"
-          ]
-        }
+        "map": [
+          ["common", "./src/common/"],
+          ["features", "./src/features/"],
+          ["app", "./src/app/"],
+          ["assets", "./src/assets/"],
+          ["services", "./src/services/"]
+        ],
+        "extensions": [".js"]
+      }
     }
   },
   "env": {

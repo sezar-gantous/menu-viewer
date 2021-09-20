@@ -35,7 +35,7 @@ export const CardContainer = styled(Card)`
   }
 `;
 
-export const ReleaseDate = styled(Typography)`
+export const Menudescription = styled(Typography)`
   bottom: 0;
   left: 1rem;
 `;
