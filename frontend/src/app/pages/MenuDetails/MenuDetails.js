@@ -1,9 +1,10 @@
 import React from 'react';
 import { useQuery } from 'react-query';
-import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import api from 'services/api';
 import * as MenuDetailsStyles from './styledComponents';
+import { ProductCard } from './components/ProductCard';
+import { ProductDialog } from './components/ProductDialog';
 
 async function fetchMenu(menuid) {
   const { data } = await api({
@@ -13,64 +14,121 @@ async function fetchMenu(menuid) {
   return data;
 }
 
-const MenuDetails = ({ match, history }) => {
-  if (!match?.params?.menuid) {
-    history.push('/');
-  }
+const MenuDetails = ({ match }) => {
+  const [productDetail, setProductDetail] = React.useState(null);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [quantity, setQuantity] = React.useState(0);
+
   const { data, error, isError, isLoading } = useQuery('menu', () =>
     fetchMenu(match.params.menuid)
   );
+  const showProduct = product => {
+    setProductDetail(product);
+    setIsOpen(true);
+  };
 
-  console.log(`DATA`, data);
+  const hideProduct = () => {
+    setProductDetail(null);
+    setQuantity(0);
+    setIsOpen(false);
+  };
+  const changeQuantity = e => {
+    if (e?.target?.value?.match(/^\d+$/g)) {
+      setQuantity(e.target.value);
+    }
+  };
+
   if (isLoading) {
-    return <MenuDetailsStyles.NoMenus>isLoading</MenuDetailsStyles.NoMenus>;
+    return (
+      <MenuDetailsStyles.NoMenus data-testid="MenuDetailsContainer">
+        isLoading
+      </MenuDetailsStyles.NoMenus>
+    );
   }
   if (isError) {
     return (
-      <MenuDetailsStyles.NoMenus>
+      <MenuDetailsStyles.NoMenus data-testid="MenuDetailsContainer">
         Error! {error.message}
       </MenuDetailsStyles.NoMenus>
     );
   }
   if (!isLoading && data?.length === 0) {
     return (
-      <MenuDetailsStyles.NoMenus>
+      <MenuDetailsStyles.NoMenus data-testid="MenuDetailsContainer">
         Could not find Menus, sorry!
       </MenuDetailsStyles.NoMenus>
     );
   }
   return (
-    <MenuDetailsStyles.Box sx={{ flexGrow: 1 }}>
-      <MenuDetailsStyles.Grid container spacing={1}>
-        <MenuDetailsStyles.Grid item xs={12}>
-          <div>
-            <h2>{data.name}</h2>
-            <div>{data.description}</div>
-          </div>
-        </MenuDetailsStyles.Grid>
-        <MenuDetailsStyles.Grid item xs={12}>
-          {data?.categories.map(category => (
-            <div key={`cat-${category.id}`}>
-              <h3>{category.name}</h3>
-              <p>{category.description}</p>
-              <MenuDetailsStyles.Grid container item spacing={3}>
-                {category?.products.map(product => (
-                  <MenuDetailsStyles.Grid
-                    item
-                    xs={4}
-                    key={`product-${product.id}`}
-                  >
-                    <h4>{product.name}</h4>
-                    <p>{product.description}</p>
-                    <span>{product.price}</span>
-                  </MenuDetailsStyles.Grid>
-                ))}
-              </MenuDetailsStyles.Grid>
+    <>
+      <MenuDetailsStyles.Box
+        sx={{ flexGrow: 1 }}
+        data-testid="MenuDetailsContainer"
+      >
+        <MenuDetailsStyles.Grid container spacing={10}>
+          <MenuDetailsStyles.Grid item xs={12}>
+            <div>
+              <MenuDetailsStyles.Typography
+                gutterBottom
+                variant="h3"
+                component="div"
+              >
+                {data.name}
+              </MenuDetailsStyles.Typography>
+              <MenuDetailsStyles.Typography
+                variant="body2"
+                color="text.secondary"
+              >
+                {data.description}
+              </MenuDetailsStyles.Typography>
             </div>
-          ))}
+          </MenuDetailsStyles.Grid>
+          <MenuDetailsStyles.Grid container item spacing={10}>
+            {data?.categories.map(category => (
+              <MenuDetailsStyles.CategoryGrid
+                item
+                key={`cat-${category.id}`}
+                xs={12}
+              >
+                <MenuDetailsStyles.Typography
+                  gutterBottom
+                  variant="h5"
+                  component="div"
+                >
+                  {category.name}
+                </MenuDetailsStyles.Typography>
+                <MenuDetailsStyles.Typography
+                  variant="body2"
+                  color="text.secondary"
+                >
+                  {category.description}
+                </MenuDetailsStyles.Typography>
+                <MenuDetailsStyles.Grid container item spacing={3}>
+                  {category?.products.map(product => (
+                    <ProductCard
+                      key={`product-${product.id}`}
+                      product={product}
+                      showProduct={showProduct}
+                    />
+                  ))}
+                </MenuDetailsStyles.Grid>
+              </MenuDetailsStyles.CategoryGrid>
+            ))}
+          </MenuDetailsStyles.Grid>
         </MenuDetailsStyles.Grid>
-      </MenuDetailsStyles.Grid>
-    </MenuDetailsStyles.Box>
+      </MenuDetailsStyles.Box>
+      <ProductDialog
+        isOpen={isOpen}
+        productDetail={productDetail}
+        hideProduct={hideProduct}
+        quantity={quantity}
+        changeQuantity={e => changeQuantity(e)}
+        increaseQuantity={() => setQuantity(quantity + 1)}
+        decreaseQuantity={() =>
+          setQuantity(quantity > 0 ? quantity - 1 : quantity)
+        }
+      />
+    </>
   );
 };
 
@@ -88,4 +146,4 @@ MenuDetails.propTypes = {
   history: PropTypes.shape({ push: PropTypes.func }),
 };
 
-export default withRouter(MenuDetails);
+export default MenuDetails;
